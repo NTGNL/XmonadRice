@@ -1,0 +1,49 @@
+-- http://projects.haskell.org/xmobar/
+-- install xmobar with these flags: --flags="with_alsa" --flags="with_mpd" --flags="with_xft"  OR --flags="all_extensions"
+-- you can find weather location codes here: http://weather.noaa.gov/index.html
+
+Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=14:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:TerminessTTF Nerd Font:pixelsize=14:antialias=true:hinting=true"
+                           , "xft:TerminessTTF Nerd Font:pixelsize=18:antialias=true:hinting=true"
+                           , "xft:FontAwesome:pixelsize=19"
+                           ]
+       , bgColor = "#1f1f1f"
+       , fgColor = "#f8f8f8"
+       , position = Static { xpos = 0 , ypos = 0, width = 1920, height = 25 }
+       , lowerOnStart = True
+       , hideOnStart = False
+       , allDesktops = True
+       , persistent = True
+       , iconRoot = "~/.xmonad/xpm/"  -- default: "."
+       , commands = [
+                      -- Time and date
+                      Run Date "%b %d %Y %H:%M" "date" 100
+                      -- Cpu usage in percent
+                    , Run Cpu ["-t", " <total>%","-H","50","--high","red"] 20
+                      -- Ram used number and percent
+                    , Run Memory ["-t", " <used>M <usedratio>%"] 20
+                      -- Disk space free
+                    , Run DiskU [("/", "<free> free")] [] 60
+-- Battery
+, Run Battery [
+"-t", "<acstatus> <left>% - <timeleft>",
+"--",
+--"-c", "charge_full",
+"-O", "AC",
+"-o", "BAT",
+"-h", "green",
+"-l", "red"
+] 100
+-- Volume Incicator
+, Run Com "/bin/bash" ["-c", "~/sc/get-volume.sh"]  "myvolume" 10
+-- CPU Temperature
+ , Run Com "/bin/bash" ["-c", "~/sc/get-temp.sh"]  "mytemp" 100
+
+                      -- Prints out the left side items such as workspaces, layout, etc.
+                      -- The workspaces are 'clickable' in my configs.
+                    , Run UnsafeStdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template =  "<icon=haskell_20.xpm/> <fc=#666666>|</fc> %UnsafeStdinReader% }{ <fc=#F2E5BC> <fn=1>墳 </fn> %myvolume% </fc><fc=#666666> <fn=2>|</fn></fc><fc=#EA6962> <fn=1> </fn> %mytemp% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#A9B665> <fn=1>ﱨ </fn> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#945E80><fn=1> </fn>%memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#D8A657><fn=1> </fn> %disku% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#a6e22e> <fn=1>  </fn> %battery% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#f8f8f2><fn=1> </fn> %date%  </fc>"
+       }
