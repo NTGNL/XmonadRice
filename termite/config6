@@ -1,0 +1,48 @@
+[options]
+font = Hack 12
+fullscreen = true
+clickable_url = true
+allow_bold = true
+dynamic_title = true
+highlight = #839496
+scrollback_lines = 10000
+
+[colors]
+
+# special
+foreground      = #c2c2b0
+foreground_bold = #c2c2b0
+cursor          = #c2c2b0
+background      = #222222
+
+# black
+color0  = #222222
+color8  = #444444
+
+# red
+color1  = #924650
+color9  = #b27d84
+
+# green
+color2  = #668c66
+color10 = #7f9f7f
+
+# yellow
+color3  = #ba9864
+color11 = #c7ac83
+
+# blue
+color4  = #00517a
+color12 = #84b5cd
+
+# magenta
+color5  = #4f8396
+color13 = #729bab
+
+# cyan
+color6  = #326f6f
+color14 = #8eafbb
+
+# white
+color7  = #c2c2b0
+color15 = #d4d4c7
