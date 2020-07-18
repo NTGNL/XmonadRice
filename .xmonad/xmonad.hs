@@ -436,6 +436,9 @@ myManageHook = composeAll
      , className =? "Nitrogen"    --> doFloat
      , className =? "Pavucontrol"   --> doFloat
      , className =? "qutebrowser" --> doShift (myWorkspaces !! 1)
+     , title =? "nmtui" --> doFloat
+     , title =? "ncmpcpp" --> doFloat
+     , title =? "ncmpcpp" --> doShift (myWorkspaces !! 6) 
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
      , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
      ] <+> namedScratchpadManageHook myScratchPads
@@ -590,10 +593,10 @@ myKeys =
 
     -- Grid Select (CTRL-g followed by a key)
         , ("C-g g", spawnSelected' myAppGrid)                 -- grid select favorite apps
-        , ("C-g m", spawnSelected' myBookmarkGrid)            -- grid select some bookmarks
+        , ("C-g b", spawnSelected' myBookmarkGrid)            -- grid select some bookmarks
         , ("C-g c", spawnSelected' myConfigGrid)              -- grid select useful config files
         , ("C-g t", goToSelected $ mygridConfig myColorizer)  -- goto selected window
-        , ("C-g b", bringSelected $ mygridConfig myColorizer) -- bring selected window
+        , ("C-g m", bringSelected $ mygridConfig myColorizer) -- bring selected window
 
     -- Tree Select/
         -- tree select actions menu
@@ -663,6 +666,7 @@ myKeys =
         , ("M-M1-c", spawn "google-chrome")
         , ("M-M1-v", spawn (myTerminal ++ " -e vim"))
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
+        , ("M-M1-m", spawn (myTerminal ++ " -e ncmpcpp"))
         , ("M-M1-q", spawn (myBrowser))
 
 
