@@ -410,7 +410,7 @@ xmobarEscape = concatMap doubleLts
 myWorkspaces :: [String]
 myWorkspaces = clickable . (map xmobarEscape)
                -- $ ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-               $ ["dev", "web", "sys", "vim", "srv", "chat", "mus", "vid", "gfx"]
+               $ ["dev", "web", "sys", "vim", "srv", "cht", "mus", "vm", "gfx"]
   where
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
                       (i,ws) <- zip [1..9] l,
@@ -435,12 +435,14 @@ myManageHook = composeAll
      , className =? "Nautilus"    --> doFloat
      , className =? "Nitrogen"    --> doFloat
      , className =? "Pavucontrol"   --> doFloat
+     , className =? "mpv"   --> doFloat
      , className =? "qutebrowser" --> doShift (myWorkspaces !! 1)
+     , className =? "discord" --> doShift (myWorkspaces !! 5)
      , title =? "nmtui" --> doFloat
      , title =? "ncmpcpp" --> doFloat
      , title =? "ncmpcpp" --> doShift (myWorkspaces !! 6) 
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
-     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
+     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 7 )
      ] <+> namedScratchpadManageHook myScratchPads
 
 ------------------------------------------------------------------------
@@ -665,6 +667,7 @@ myKeys =
         , ("M-M1-r", spawn (myTerminal ++ " -e ranger"))
         , ("M-M1-c", spawn "google-chrome")
         , ("M-M1-v", spawn (myTerminal ++ " -e vim"))
+        , ("M-M1-n", spawn "nautilus")
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
         , ("M-M1-m", spawn (myTerminal ++ " -e ncmpcpp"))
         , ("M-M1-q", spawn (myBrowser))
@@ -682,7 +685,7 @@ myKeys =
         , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
         , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
         , ("<XF86Eject>", spawn "toggleeject")
-        , ("<Print>", spawn "scrotd 0")
+        , ("<Print>", spawn "gnome-screenshot -a")
         ]
         -- Appending search engine prompts to keybindings list.
         -- Look at "search engines" section of this config for values for "k".
@@ -703,7 +706,6 @@ main :: IO ()
 main = do
     -- Launching three instances of xmobar on their monitors.
     xmproc0 <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobarrc0"
-    -- the xmonad, ya know...what the WM is named after!
     xmonad $ ewmh def
         { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
         -- Run xmonad commands from command line with "xmonadctl command". Commands include:
