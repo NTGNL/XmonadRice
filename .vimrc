@@ -310,81 +310,83 @@ NeoBundleCheck
         " Toggle relativenumber
         nnoremap <silent> <Leader>r :set relativenumber!<CR>
 
-        " Treat wrapped lines as normal lines
-        nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
-        nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+    nnoremap <silent> <Leader>ln :set invnumber<CR>
 
-        " Quickly switch buffers
-        nnoremap <Leader>n :bnext<CR>
-        nnoremap <Leader>p :bprevious<CR>
-        nnoremap <Leader>f :b#<CR>
-        nnoremap <Leader>1 :1b<CR>
-        nnoremap <Leader>2 :2b<CR>
-        nnoremap <Leader>3 :3b<CR>
-        nnoremap <Leader>4 :4b<CR>
-        nnoremap <Leader>5 :5b<CR>
-        nnoremap <Leader>6 :6b<CR>
-        nnoremap <Leader>7 :7b<CR>
-        nnoremap <Leader>8 :8b<CR>
-        nnoremap <Leader>9 :9b<CR>
-        nnoremap <Leader>0 :10b<CR>
+    " Treat wrapped lines as normal lines
+    nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
+    nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
 
-        " Highlight last inserted text
-        nnoremap gV '[V']
+    " Quickly switch buffers
+    nnoremap <Leader>n :bnext<CR>
+    nnoremap <Leader>p :bprevious<CR>
+    nnoremap <Leader>f :b#<CR>
+    nnoremap <Leader>1 :1b<CR>
+    nnoremap <Leader>2 :2b<CR>
+    nnoremap <Leader>3 :3b<CR>
+    nnoremap <Leader>4 :4b<CR>
+    nnoremap <Leader>5 :5b<CR>
+    nnoremap <Leader>6 :6b<CR>
+    nnoremap <Leader>7 :7b<CR>
+    nnoremap <Leader>8 :8b<CR>
+    nnoremap <Leader>9 :9b<CR>
+    nnoremap <Leader>0 :10b<CR>
+
+    " Highlight last inserted text
+    nnoremap gV '[V']
+""" }}}
+""" Functions and/or fancy keybinds {{{
+    """ Toggle syntax highlighting {{{
+        function! ToggleSyntaxHighlighthing()
+            if exists('g:syntax_on')
+                syntax off
+            else
+                syntax enable
+            endif
+        endfunction
+
+        nnoremap <Leader>s :call ToggleSyntaxHighlighthing()<CR>
     """ }}}
-    """ Functions and/or fancy keybinds {{{
-        """ Toggle syntax highlighting {{{
-            function! ToggleSyntaxHighlighthing()
-                if exists('g:syntax_on')
-                    syntax off
-                else
-                    syntax enable
-                endif
-            endfunction
+    """ Highlight characters past 79, toggle with <Leader>h {{{
+    """ You might want to override this function and its variables with
+    """ your own in .vimrc.last which might set for example colorcolumn or
+    """ even the textwidth. See https://github.com/timss/vimconf/pull/4
+        let g:overlength_enabled = 0
+        highlight OverLength ctermbg=238 guibg=#444444
 
-            nnoremap <Leader>s :call ToggleSyntaxHighlighthing()<CR>
-        """ }}}
-        """ Highlight characters past 79, toggle with <Leader>h {{{
-        """ You might want to override this function and its variables with
-        """ your own in .vimrc.last which might set for example colorcolumn or
-        """ even the textwidth. See https://github.com/timss/vimconf/pull/4
-            let g:overlength_enabled = 0
-            highlight OverLength ctermbg=238 guibg=#444444
+        function! ToggleOverLength()
+            if g:overlength_enabled == 0
+                match OverLength /\%79v.*/
+                let g:overlength_enabled = 1
+                echo 'OverLength highlighting turned on'
+            else
+                match
+                let g:overlength_enabled = 0
+                echo 'OverLength highlighting turned off'
+            endif
+        endfunction
 
-            function! ToggleOverLength()
-                if g:overlength_enabled == 0
-                    match OverLength /\%79v.*/
-                    let g:overlength_enabled = 1
-                    echo 'OverLength highlighting turned on'
-                else
-                    match
-                    let g:overlength_enabled = 0
-                    echo 'OverLength highlighting turned off'
-                endif
-            endfunction
+        nnoremap <Leader>h :call ToggleOverLength()<CR>
+    """ }}}
+    """ Toggle text wrapping, wrap on whole words {{{
+    """ For more info see: http://stackoverflow.com/a/2470885/1076493
+        function! WrapToggle()
+            if &wrap
+                set list
+                set nowrap
+            else
+                set nolist
+                set wrap
+            endif
+        endfunction
 
-            nnoremap <Leader>h :call ToggleOverLength()<CR>
-        """ }}}
-        """ Toggle text wrapping, wrap on whole words {{{
-        """ For more info see: http://stackoverflow.com/a/2470885/1076493
-            function! WrapToggle()
-                if &wrap
-                    set list
-                    set nowrap
-                else
-                    set nolist
-                    set wrap
-                endif
-            endfunction
+        nnoremap <Leader>w :call WrapToggle()<CR>
+    """ }}}
+    """ Remove multiple empty lines {{{
+        function! DeleteMultipleEmptyLines()
+            g/^\_$\n\_^$/d
+        endfunction
 
-            nnoremap <Leader>w :call WrapToggle()<CR>
-        """ }}}
-        """ Remove multiple empty lines {{{
-            function! DeleteMultipleEmptyLines()
-                g/^\_$\n\_^$/d
-            endfunction
-
-            nnoremap <Leader>ld :call DeleteMultipleEmptyLines()<CR>
+        nnoremap <Leader>ld :call DeleteMultipleEmptyLines()<CR>
         """ }}}
         """ Split to relative header/source {{{
             function! SplitRelSrc()
@@ -627,14 +629,15 @@ let g:airline_theme='badwolf'
 "volorscheme desertEx
 "colorscheme skittles_berry
 "colorscheme skittles_dark
-"olorscheme codeblocks_dark
+"colorscheme codeblocks_dark
+colorscheme elflord
 
-"let g:gruvbox_contrast_dark ='hard'
+let g:gruvbox_contrast_light ='Hard'
 "colorscheme gruvbox
 
-set number
 set cursorline
 hi CursorLine term=bold cterm=bold guibg=Grey40
 
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
+
