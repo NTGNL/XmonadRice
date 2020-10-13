@@ -175,7 +175,7 @@ myBookmarks = [ ("Youtube.com", myBrowser ++ "https://www.youtube.com", "Youtube
 myConfigs :: [(String, String, String)]
 myConfigs = [ ("bashrc", myEditor ++ " ~/.bashrc", "the bourne again shell")
             , ("xmonad.hs", myEditor ++ " ~/.xmonad/xmonad.hs", "xmonad config")
-            , ("fishconfig", myEditor ++ " ~/home/aleks/.config/fish/config.fish", "config for fish shell")
+            , ("fishconfig", myEditor ++ " ~/.config/fish/config.fish", "config for fish shell")
             ]
 
 -- Let's take myApplications, myBookmarks and myConfigs and take only
