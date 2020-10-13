@@ -75,6 +75,8 @@ NeoBundleCheck
     "autocomplete syntax
     "Plug 'valloric/youcompleteme'
 
+    Plug 'mkitt/tabline'
+
     "icons
     Plug 'ryanoasis/vim-devicons'
 
@@ -627,12 +629,10 @@ let g:airline_theme='badwolf'
 "colorscheme gotham
 "colorscheme jellybeans
 "volorscheme desertEx
-"colorscheme skittles_berry
-"colorscheme skittles_dark
-"colorscheme codeblocks_dark
-colorscheme elflord
+"colorscheme elflord
 
-let g:gruvbox_contrast_light ='Hard'
+"colorscheme 
+"let g:gruvbox_contrast_dark ='Hard'
 "colorscheme gruvbox
 
 set cursorline
@@ -640,4 +640,3 @@ hi CursorLine term=bold cterm=bold guibg=Grey40
 
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
-

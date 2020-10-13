@@ -410,7 +410,7 @@ xmobarEscape = concatMap doubleLts
 myWorkspaces :: [String]
 myWorkspaces = clickable . (map xmobarEscape)
                -- $ ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-               $ ["dev", "web", "sys", "vim", "srv", "cht", "mus", "vm", "gfx"]
+               $ ["1", "2", "3", "4", "dev", "sys", "mus", "vim", "gfx"]
   where
         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
                       (i,ws) <- zip [1..9] l,
@@ -437,12 +437,12 @@ myManageHook = composeAll
      , className =? "Pavucontrol"   --> doFloat
      , className =? "mpv"   --> doFloat
      , className =? "qutebrowser" --> doShift (myWorkspaces !! 1)
-     , className =? "discord" --> doShift (myWorkspaces !! 5)
+     , className =? "discord" --> doShift (myWorkspaces !! 3)
      , title =? "nmtui" --> doFloat
      , title =? "ncmpcpp" --> doFloat
      , title =? "ncmpcpp" --> doShift (myWorkspaces !! 6) 
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
-     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 7 )
+     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 5 )
      ] <+> namedScratchpadManageHook myScratchPads
 
 ------------------------------------------------------------------------

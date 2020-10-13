@@ -19,11 +19,11 @@ Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=14:antialia
                       -- Time and date
                       Run Date "%b %d %Y %H:%M" "date" 100
                       -- Cpu usage in percent
-                    , Run Cpu ["-t", " <total>%","-H","50","--high","red"] 20
+                    , Run Cpu ["-t", " <total>%","-H","50","--high","red"] 100
                       -- Ram used number and percent
-                    , Run Memory ["-t", " <used>M <usedratio>%"] 20
+                    , Run Memory ["-t", " <used>M <usedratio>%"] 100
                       -- Disk space free
-                    , Run DiskU [("/", "<free> free")] [] 60
+                    , Run DiskU [("/", "<free> free")] [] 100
 -- Battery
 , Run Battery [
 "-t", "<acstatus> <left>% - <timeleft>",
@@ -35,7 +35,7 @@ Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=14:antialia
 "-l", "red"
 ] 100
 -- Volume Incicator
-, Run Com "/bin/bash" ["-c", "~/sc/get-volume.sh"]  "myvolume" 10
+, Run Com "/bin/bash" ["-c", "~/sc/get-volume.sh"]  "myvolume" 50
 -- CPU Temperature
  , Run Com "/bin/bash" ["-c", "~/sc/get-temp.sh"]  "mytemp" 100
 
