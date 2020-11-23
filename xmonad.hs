@@ -161,9 +161,13 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
 -- TreeSelect uses all three values in the 3-tuples but GridSelect only needs first
 -- two values in each list (see myAppGrid, myBookmarkGrid and myConfigGrid below).
 myApplications :: [(String, String, String)]
-myApplications = [ ("Record Screen", "~/sc/record_gif.sh", "Record screen as gif for 6 sec")
-                 , ("Auto Clicker 1000", "~/sc/autoclicker1000.sh", "Click 1000 times")
-                 , ("Auto Clicker 100", "~/sc/autoclicker100.sh", "Click 100 times")
+myApplications = [ ("Record Screen", "/home/aleks/sc/record_gif.sh", "Record screen as gif for 6 sec")
+                 , ("Auto Clicker 1000", "/home/aleks/sc/autoclicker1000.sh", "Click 1000 times")
+                 , ("Auto Clicker 100", "/home/aleks/sc/autoclicker100.sh", "Click 100 times")
+                 , ("syf.sh Random Word", "/home/aleks/sc/random/syf.sh", "word generator/spammer")
+                 , ("rulonOne.sh One Curse", "/home/aleks/sc/random/rulonOne.sh", "curse word spammer")
+                 , ("rulon2fast.sh Fast Curse", "/home/aleks/sc/random/rulon2fast.sh", "curse word spammer")
+                 , ("rulon2.sh 13 Curse Words", "/home/aleks/sc/random/rulon2.sh", "curse word spammer")
                  ]
 
 myBookmarks :: [(String, String, String)]
@@ -667,7 +671,7 @@ myKeys =
         , ("M-M1-r", spawn (myTerminal ++ " -e ranger"))
         , ("M-M1-f", spawn "firefox")
         , ("M-M1-v", spawn (myTerminal ++ " -e vim"))
-        , ("M-M1-k", spawn "~/Programs/cool-retro-term/cool-retro-term")
+        , ("M-M1-k", spawn "/home/aleks/Programs/cool-retro-term/cool-retro-term")
         , ("M-M1-n", spawn "nautilus")
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
         , ("M-M1-m", spawn (myTerminal ++ " -e ncmpcpp"))
