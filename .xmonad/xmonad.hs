@@ -256,7 +256,7 @@ ntgnlConfig = def
       , fgHLight            = "#1e1b19"
       , borderColor         = "#6699df"
       , promptBorderWidth   = 1
-      , promptKeymap        = dtXPKeymap
+      , promptKeymap        = ntgnlKeymap
       , position            = Top
 --    , position            = CenteredAt { xpCenterY = 0.3, xpWidth = 0.3 }
       , height              = 20
@@ -303,8 +303,8 @@ calcPrompt c ans =
 ------------------------------------------------------------------------
 -- XPROMPT KEYMAP (emacs-like key bindings for xprompts)
 ------------------------------------------------------------------------
-dtXPKeymap :: M.Map (KeyMask,KeySym) (XP ())
-dtXPKeymap = M.fromList $
+ntgnlKeymap :: M.Map (KeyMask,KeySym) (XP ())
+ntgnlKeymap = M.fromList $
      map (first $ (,) controlMask)   -- control + <key>
      [ (xK_z, killBefore)            -- kill line backwards
      , (xK_k, killAfter)             -- kill line forwards
