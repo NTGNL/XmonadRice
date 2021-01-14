@@ -79,9 +79,6 @@ import XMonad.Util.SpawnOnce
 ------------------------------------------------------------------------
 -- VARIABLES
 ------------------------------------------------------------------------
--- It's nice to assign values to stuff that you will use more than once
--- in the config. Setting values for things like font, terminal and editor
--- means you only have to change the value here to make changes globally.
 myFont :: String
 myFont = "xft:TerminessTTF Nerd Font:bold:size=11:antialias=true:hinting=true"
 
@@ -93,7 +90,6 @@ myTerminal = "termite"   -- Sets default terminal
 
 myBrowser :: String
 myBrowser = "qutebrowser "               -- Sets qutebrowser as browser for tree select
--- myBrowser = myTerminal ++ " -e lynx " -- Sets lynx as browser for tree select
 
 myEditor :: String
 myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor for tree select
@@ -125,8 +121,6 @@ myStartupHook = do
 ------------------------------------------------------------------------
 -- GRID SELECT
 ------------------------------------------------------------------------
--- GridSelect displays items (programs, open windows, etc.) in a 2D grid
--- and lets the user select from it with the cursor/hjkl keys or the mouse.
 myColorizer :: Window -> Bool -> X (String, String)
 myColorizer = colorRangeFromClassName
                   (0x29,0x2d,0x3e) -- lowest inactive bg
@@ -157,13 +151,15 @@ spawnSelected' lst = gridselect conf lst >>= flip whenJust spawn
                    , gs_font         = myFont
                    }
 
--- The lists below are actually 3-tuples for use with gridSelect and treeSelect.
--- TreeSelect uses all three values in the 3-tuples but GridSelect only needs first
--- two values in each list (see myAppGrid, myBookmarkGrid and myConfigGrid below).
 myApplications :: [(String, String, String)]
-myApplications = [ ("Record Screen", "~/sc/record_gif.sh", "Record screen as gif for 6 sec")
-                 , ("Auto Clicker 1000", "~/sc/autoclicker1000.sh", "Click 1000 times")
-                 , ("Auto Clicker 100", "~/sc/autoclicker100.sh", "Click 100 times")
+myApplications = [ ("Record Screen", "/home/aleks/sc/record_gif.sh", "Record screen as gif for 6 sec")
+                 , ("Auto Clicker 1000", "/home/aleks/sc/autoclicker1000.sh", "Click 1000 times")
+                 , ("Auto Clicker 100", "/home/aleks/sc/autoclicker100.sh", "Click 100 times")
+                 , ("syf.sh Random Word", "/home/aleks/sc/random/syf.sh", "word generator/spammer")
+                 , ("Get Mouse Coords", "/home/aleks/sc/coordinator/coord.sh", "get coordinate to click")
+                 , ("rulonOne.sh One Curse", "/home/aleks/sc/random/rulonOne.sh", "curse word spammer")
+                 , ("rulon2fast.sh Fast Curse", "/home/aleks/sc/random/rulon2fast.sh", "curse word spammer")
+                 , ("rulon2.sh 13 Curse Words", "/home/aleks/sc/random/rulon2.sh", "curse word spammer")
                  ]
 
 myBookmarks :: [(String, String, String)]
@@ -177,8 +173,6 @@ myConfigs = [ ("bashrc", myEditor ++ " ~/.bashrc", "the bourne again shell")
             , ("fishconfig", myEditor ++ " ~/.config/fish/config.fish", "config for fish shell")
             ]
 
--- Let's take myApplications, myBookmarks and myConfigs and take only
--- the first two values from those 3-tuples (for GridSelect).
 myAppGrid :: [(String, String)]
 myAppGrid = [ (a,b) | (a,b,c) <- xs]
   where xs = myApplications
@@ -194,8 +188,6 @@ myConfigGrid = [ (a,b) | (a,b,c) <- xs]
 ------------------------------------------------------------------------
 -- TREE SELECT
 ------------------------------------------------------------------------
--- TreeSelect displays your workspaces or actions in a Tree-like format.
--- You can select desired workspace/action with the cursor or hjkl keys.
 
 treeselectAction :: TS.TSConfig (X ()) -> X ()
 treeselectAction a = TS.treeselectAction a
@@ -236,10 +228,6 @@ tsDefaultConfig = TS.TSConfig { TS.ts_hidechildren = True
                               , TS.ts_navigate     = myTreeNavigation
                               }
 
--- Keybindings for treeSelect menus. Use h-j-k-l to navigate.
--- Use 'o' and 'i' to move forward/back in the workspace history.
--- Single KEY's are for top-level nodes. SUPER+KEY are for the
--- second-level nodes. SUPER+ALT+KEY are third-level nodes.
 myTreeNavigation = M.fromList
     [ ((0, xK_Escape),   TS.cancel)
     , ((0, xK_Return),   TS.select)
@@ -259,8 +247,8 @@ myTreeNavigation = M.fromList
 ------------------------------------------------------------------------
 -- XPROMPT SETTINGS
 ------------------------------------------------------------------------
-dtXPConfig :: XPConfig
-dtXPConfig = def
+ntgnlConfig :: XPConfig
+ntgnlConfig = def
       { font                = myFont
       , bgColor             = "#1f1f1f"
       , fgColor             = "#f8f8f8"
@@ -283,15 +271,11 @@ dtXPConfig = def
       , maxComplRows        = Nothing      -- set to Just 5 for 5 rows
       }
 
--- The same config above minus the autocomplete feature which is annoying
--- on certain Xprompts, like the search engine prompts.
-dtXPConfig' :: XPConfig
-dtXPConfig' = dtXPConfig
+ntgnlConfig' :: XPConfig
+ntgnlConfig' = ntgnlConfig
       { autoComplete        = Nothing
       }
 
--- A list of all of the standard Xmonad prompts and a key press assigned to them.
--- These are used in conjunction with keybinding I set later in the config.
 promptList :: [(String, XPConfig -> X ())]
 promptList = [ ("m", manPrompt)          -- manpages prompt
              , ("p", passPrompt)         -- get passwords (requires 'pass')
@@ -301,7 +285,6 @@ promptList = [ ("m", manPrompt)          -- manpages prompt
              , ("x", xmonadPrompt)       -- xmonad prompt
              ]
 
--- Same as the above list except this is for my custom prompts.
 promptList' :: [(String, XPConfig -> String -> X (), String)]
 promptList' = [ ("c", calcPrompt, "qalc")         -- requires qalculate-gtk
               ]
@@ -309,9 +292,6 @@ promptList' = [ ("c", calcPrompt, "qalc")         -- requires qalculate-gtk
 ------------------------------------------------------------------------
 -- CUSTOM PROMPTS
 ------------------------------------------------------------------------
--- calcPrompt requires a cli calculator called qalcualte-gtk.
--- You could use this as a template for other custom prompts that
--- use command line programs that return a single line of output.
 calcPrompt :: XPConfig -> String -> X ()
 calcPrompt c ans =
     inputPrompt c (trim ans) ?+ \input ->
@@ -365,9 +345,6 @@ dtXPKeymap = M.fromList $
 ------------------------------------------------------------------------
 -- SEARCH ENGINES
 ------------------------------------------------------------------------
--- Xmonad has several search engines available to use located in
--- XMonad.Actions.Search. Additionally, you can add other search engines
--- such as those listed below.
 ebay, urban :: S.SearchEngine
 
 ebay     = S.searchEngine "ebay" "https://www.ebay.com/sch/i.html?_nkw="
@@ -394,11 +371,6 @@ searchList = [ ("d", S.duckduckgo)
 ------------------------------------------------------------------------
 -- WORKSPACES
 ------------------------------------------------------------------------
--- My workspaces are clickable meaning that the mouse can be used to switch
--- workspaces. This requires xdotool. You need to use UnsafeStdInReader instead
--- of simply StdInReader in xmobar config so you can pass actions to it. Also,
--- you will notice I add <fn> tags to the clickable workspaces to select from
--- the additionalFonts that I have set in my xmobar configs.
 
 xmobarEscape :: String -> String
 xmobarEscape = concatMap doubleLts
@@ -406,24 +378,18 @@ xmobarEscape = concatMap doubleLts
         doubleLts '<' = "<<"
         doubleLts x   = [x]
 
---myWorkspaces = clickable . (map xmobarEscape)
 myWorkspaces :: [String]
-myWorkspaces = (map xmobarEscape)
+myWorkspaces = clickable . (map xmobarEscape)
                -- $ ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                $ ["1", "2", "3", "4", "dev", "sys", "mus", "vim", "gfx"]
-  --where
-        --clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
-                      --(i,ws) <- zip [1..9] l,
-                      --let n = i ]
+  where
+        clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
+                      (i,ws) <- zip [1..9] l,
+                      let n = i ]
 
 ------------------------------------------------------------------------
 -- MANAGEHOOK
 ------------------------------------------------------------------------
--- Sets some rules for certain programs. Examples include forcing certain
--- programs to always float, or to always appear on a certain workspace.
--- Forcing programs to a certain workspace with a doShift requires xdotool
--- if you are using clickable workspaces. You need the className or title
--- of the program. Use xprop to get this info.
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
@@ -442,15 +408,11 @@ myManageHook = composeAll
      , title =? "ncmpcpp" --> doFloat
      , title =? "ncmpcpp" --> doShift (myWorkspaces !! 6) 
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
-     , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 5 )
      ] <+> namedScratchpadManageHook myScratchPads
 
 ------------------------------------------------------------------------
 -- LOGHOOK
 ------------------------------------------------------------------------
--- Sets opacity for inactive (unfocused) windows. I prefer to not use
--- this feature so I've set opacity to 1.0. If you want opacity, set
--- this to a value of less than 1 (such as 0.9 for 90% opacity).
 myLogHook :: X ()
 myLogHook = fadeInactiveLogHook fadeAmount
     where fadeAmount = 1.0
@@ -458,17 +420,6 @@ myLogHook = fadeInactiveLogHook fadeAmount
 ------------------------------------------------------------------------
 -- LAYOUTS
 ------------------------------------------------------------------------
--- Makes setting the spacingRaw simpler to write. The spacingRaw
--- module adds a configurable amount of space around windows.
---mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
---mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
-
--- Below is a variation of the above except no borders are applied
--- if fewer than two windows. So a single window has no gaps.
---mySpacing' :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
---mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
-
--- Defining a bunch of layouts, many that I don't use.
 tall     = renamed [Replace "tall"]
            $ limitWindows 12
            -- $ mySpacing 8
@@ -515,7 +466,6 @@ tabs     = renamed [Replace "tabs"]
                       , inactiveTextColor   = "#f8f8f2"
                       }
 
--- Theme for showWName which prints current workspace when you change workspaces.
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
     { swn_font              = "xft:Sans:bold:size=60"
@@ -542,8 +492,6 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
 ------------------------------------------------------------------------
 -- SCRATCHPADS
 ------------------------------------------------------------------------
--- Allows to have several floating scratchpads running different applications.
--- Import Util.NamedScratchpad.  Bind a key to namedScratchpadSpawnAction.
 myScratchPads :: [NamedScratchpad]
 myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 , NS "mocp" spawnMocp findMocp manageMocp
@@ -569,8 +517,6 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
 ------------------------------------------------------------------------
 -- KEYBINDINGS
 ------------------------------------------------------------------------
--- I am using the Xmonad.Util.EZConfig module which allows keybindings
--- to be written in simpler, emacs-like format.
 myKeys :: [(String, X ())]
 myKeys =
     -- Xmonad
@@ -582,7 +528,7 @@ myKeys =
         , ("M-<Return>", spawn myTerminal)
 
     -- Run Prompt
-        , ("M-S-<Return>", shellPrompt dtXPConfig)   -- Shell Prompt
+        , ("M-S-<Return>", shellPrompt ntgnlConfig)   -- Shell Prompt
 
     -- Windows
         , ("M-S-q", kill1)                           -- Kill the currently focused client
@@ -644,31 +590,14 @@ myKeys =
         , ("M-C-<Return>", namedScratchpadAction myScratchPads "terminal")
         , ("M-C-c", namedScratchpadAction myScratchPads "mocp")
 
-    -- Controls for mocp music player.
-        , ("M-u p", spawn "mocp --play")
-        , ("M-u l", spawn "mocp --next")
-        , ("M-u h", spawn "mocp --previous")
-        , ("M-u <Space>", spawn "mocp --toggle-pause")
-
-    -- -- Emacs (CTRL-e followed by a key)
-        -- , ("C-e e", spawn "emacsclient -c -a ''")                            -- start emacs
-        -- , ("C-e b", spawn "emacsclient -c -a '' --eval '(ibuffer)'")         -- list emacs buffers
-        -- , ("C-e d", spawn "emacsclient -c -a '' --eval '(dired nil)'")       -- dired emacs file manager
-        -- , ("C-e i", spawn "emacsclient -c -a '' --eval '(erc)'")             -- erc emacs irc client
-        -- , ("C-e m", spawn "emacsclient -c -a '' --eval '(mu4e)'")            -- mu4e emacs email client
-        -- , ("C-e n", spawn "emacsclient -c -a '' --eval '(elfeed)'")          -- elfeed emacs rss client
-        -- , ("C-e s", spawn "emacsclient -c -a '' --eval '(eshell)'")          -- eshell within emacs
-        -- , ("C-e t", spawn "emacsclient -c -a '' --eval '(mastodon)'")        -- mastodon within emacs
-        -- , ("C-e v", spawn "emacsclient -c -a '' --eval '(+vterm/here nil)'") -- vterm within emacs
-        -- -- emms is an emacs audio player. I set it to auto start playing in a specific directory.
-        -- , ("C-e a", spawn "emacsclient -c -a '' --eval '(emms)' --eval '(emms-play-directory-tree \"~/Music/Non-Classical/70s-80s/\")'")
 
     --- My Applications (Super+Alt+Key)
         , ("M-M1-r", spawn (myTerminal ++ " -e ranger"))
         , ("M-M1-f", spawn "firefox")
         , ("M-M1-v", spawn (myTerminal ++ " -e vim"))
-        , ("M-M1-k", spawn "~/Programs/cool-retro-term/cool-retro-term")
+        , ("M-M1-k", spawn "/home/aleks/Programs/cool-retro-term/cool-retro-term")
         , ("M-M1-n", spawn "nautilus")
+        , ("M-M1-x", spawn "/home/aleks/sc/coordinator/coordClick.sh")
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
         , ("M-M1-m", spawn (myTerminal ++ " -e ncmpcpp"))
         , ("M-M1-q", spawn (myBrowser))
@@ -689,14 +618,10 @@ myKeys =
         , ("<Print>", spawn "gnome-screenshot -a")
         ]
         -- Appending search engine prompts to keybindings list.
-        -- Look at "search engines" section of this config for values for "k".
-        ++ [("M-s " ++ k, S.promptSearch dtXPConfig' f) | (k,f) <- searchList ]
+        ++ [("M-s " ++ k, S.promptSearch ntgnlConfig' f) | (k,f) <- searchList ]
         ++ [("M-S-s " ++ k, S.selectSearch f) | (k,f) <- searchList ]
-        -- Appending some extra xprompts to keybindings list.
-        -- Look at "xprompt settings" section this of config for values for "k".
-        ++ [("M-p " ++ k, f dtXPConfig') | (k,f) <- promptList ]
-        ++ [("M-p " ++ k, f dtXPConfig' g) | (k,f,g) <- promptList' ]
-        -- The following lines are needed for named scratchpads.
+        ++ [("M-p " ++ k, f ntgnlConfig') | (k,f) <- promptList ]
+        ++ [("M-p " ++ k, f ntgnlConfig' g) | (k,f,g) <- promptList' ]
           where nonNSP          = WSIs (return (\ws -> W.tag ws /= "nsp"))
                 nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "nsp"))
 
@@ -709,10 +634,6 @@ main = do
     xmproc0 <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobarrc0"
     xmonad $ ewmh def
         { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
-        -- Run xmonad commands from command line with "xmonadctl command". Commands include:
-        -- shrink, expand, next-layout, default-layout, restart-wm, xterm, kill, refresh, run,
-        -- focus-up, focus-down, swap-up, swap-down, swap-master, sink, quit-wm. You can run
-        -- "xmonadctl 0" to generate full list of commands written to ~/.xsession-errors.
         , handleEventHook    = serverModeEventHookCmd
                                <+> serverModeEventHook
                                <+> serverModeEventHookF "XMONAD_PRINT" (io . putStrLn)

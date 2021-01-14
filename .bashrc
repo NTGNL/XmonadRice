@@ -59,7 +59,6 @@ alias l='ls -CF'
 alias clr='clear'
 alias ls='ls -hN --color=auto --group-directories-first'
 alias diff="diff --color=auto"
-alias vi3="vim ~/.config/i3/config"
 alias r="ranger"
 alias n="nnn"
 alias svim="sudo vim"
