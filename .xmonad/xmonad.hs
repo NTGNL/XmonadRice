@@ -350,8 +350,6 @@ ebay, urban :: S.SearchEngine
 ebay     = S.searchEngine "ebay" "https://www.ebay.com/sch/i.html?_nkw="
 urban    = S.searchEngine "urban" "https://www.urbandictionary.com/define.php?term="
 
--- This is the list of search engines that I want to use. Some are from
--- XMonad.Actions.Search, and some are the ones that I added above.
 searchList :: [(String, S.SearchEngine)]
 searchList = [ ("d", S.duckduckgo)
              , ("e", ebay)
@@ -393,9 +391,6 @@ myWorkspaces = clickable . (map xmobarEscape)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
-     -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
-     -- I'm doing it this way because otherwise I would have to write out
-     -- the full name of my workspaces.
      [ className =? "Gimp"    --> doShift ( myWorkspaces !! 8 )
      , className =? "Gimp"    --> doFloat
      , className =? "Nautilus"    --> doFloat
@@ -630,7 +625,6 @@ myKeys =
 ------------------------------------------------------------------------
 main :: IO ()
 main = do
-    -- Launching three instances of xmobar on their monitors.
     xmproc0 <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobarrc0"
     xmonad $ ewmh def
         { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
