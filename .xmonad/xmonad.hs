@@ -157,9 +157,9 @@ myApplications = [ ("Record Screen", "/home/aleks/sc/record_gif.sh", "Record scr
                  , ("Auto Clicker 100", "/home/aleks/sc/autoclicker100.sh", "Click 100 times")
                  , ("syf.sh Random Word", "/home/aleks/sc/random/syf.sh", "word generator/spammer")
                  , ("Get Mouse Coords", "/home/aleks/sc/coordinator/coord.sh", "get coordinate to click")
-                 , ("rulonOne.sh One Curse", "/home/aleks/sc/random/rulonOne.sh", "curse word spammer")
-                 , ("rulon2fast.sh Fast Curse", "/home/aleks/sc/random/rulon2fast.sh", "curse word spammer")
-                 , ("rulon2.sh 13 Curse Words", "/home/aleks/sc/random/rulon2.sh", "curse word spammer")
+                 , ("rulonOne.sh One ", "/home/aleks/sc/random/rulonOne.sh", "one word spammer")
+                 , ("rulon2fast.sh Fast", "/home/aleks/sc/random/rulon2fast.sh", "fast word spammer")
+                 , ("rulon2.sh 13 Words", "/home/aleks/sc/random/rulon2.sh", "13 word spammer")
                  ]
 
 myBookmarks :: [(String, String, String)]
