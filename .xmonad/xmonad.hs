@@ -86,7 +86,7 @@ myModMask :: KeyMask
 myModMask = mod4Mask       -- Sets modkey to super/windows key
 
 myTerminal :: String
-myTerminal = "termite"   -- Sets default terminal
+myTerminal = "urxvt"   -- Sets default terminal
 
 myBrowser :: String
 myBrowser = "qutebrowser "               -- Sets qutebrowser as browser for tree select
@@ -155,16 +155,13 @@ myApplications :: [(String, String, String)]
 myApplications = [ ("Record Screen", "/home/aleks/sc/record_gif.sh", "Record screen as gif for 6 sec")
                  , ("Auto Clicker 1000", "/home/aleks/sc/autoclicker1000.sh", "Click 1000 times")
                  , ("Auto Clicker 100", "/home/aleks/sc/autoclicker100.sh", "Click 100 times")
-                 , ("syf.sh Random Word", "/home/aleks/sc/random/syf.sh", "word generator/spammer")
                  , ("Get Mouse Coords", "/home/aleks/sc/coordinator/coord.sh", "get coordinate to click")
-                 , ("rulonOne.sh One ", "/home/aleks/sc/random/rulonOne.sh", "one word spammer")
-                 , ("rulon2fast.sh Fast", "/home/aleks/sc/random/rulon2fast.sh", "fast word spammer")
-                 , ("rulon2.sh 13 Words", "/home/aleks/sc/random/rulon2.sh", "13 word spammer")
                  ]
 
 myBookmarks :: [(String, String, String)]
 myBookmarks = [ ("Youtube.com", myBrowser ++ "https://www.youtube.com", "Youtube")
               , ("My website", myBrowser ++ "https://www.aleksander.xyz", "My website")
+                , ("walk.sh CSGO", "/home/aleks/sc/csgo/walk.sh", "walk csgo")
               ]
 
 myConfigs :: [(String, String, String)]
@@ -391,8 +388,7 @@ myWorkspaces = clickable . (map xmobarEscape)
 
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
-     [ className =? "Gimp"    --> doShift ( myWorkspaces !! 8 )
-     , className =? "Gimp"    --> doFloat
+     [ className =? "Gimp"    --> doFloat
      , className =? "Nautilus"    --> doFloat
      , className =? "Nitrogen"    --> doFloat
      , className =? "Pavucontrol"   --> doFloat
