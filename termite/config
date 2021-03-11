@@ -1,5 +1,5 @@
 [options]
-font = TerminessTTF Nerd Font 13
+font = TerminessTTF Nerd Font 11
 fullscreen = true
 clickable_url = true
 allow_bold = true
@@ -47,4 +47,4 @@ color14 = #87a4a5
 color7  = #cad7ca
 color15 = #cad7ca
 
-background = rgba(0, 0, 0, 0.80)
+background = rgba(0, 0, 0, 0)

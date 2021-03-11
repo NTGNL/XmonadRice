@@ -77,9 +77,6 @@ NeoBundleCheck
 
     Plug 'mkitt/tabline'
 
-    "icons
-    Plug 'ryanoasis/vim-devicons'
-
     "color for files in nerdtree
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
@@ -557,6 +554,10 @@ autocmd FileType c inoremap <Leader>ife if()<CR>{<CR><CR>}<CR>else<CR>{<CR><CR>}
 "for loop
 autocmd FileType c inoremap <Leader>for for(init;<Space>condition;<Space>increment)<CR>{<CR><CR>}
 
+"start nerdtree
+autocmd VimEnter * exe 'NERDTree' | wincmd l
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 " Remove <Tab> from the list of keys mapped by YCM.
 let g:ycm_key_list_select_completion = ['<Down>']
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "ᐅ"
@@ -636,6 +637,7 @@ let g:airline_theme='badwolf'
 "colorscheme gruvbox
 
 set cursorline
+set number
 hi CursorLine term=bold cterm=bold guibg=Grey40
 
 let g:airline#extensions#tabline#enabled = 0
