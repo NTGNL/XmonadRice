@@ -89,7 +89,7 @@ myTerminal :: String
 myTerminal = "urxvt"   -- Sets default terminal
 
 myBrowser :: String
-myBrowser = "qutebrowser "               -- Sets qutebrowser as browser for tree select
+myBrowser = "firefox "               -- Sets qutebrowser as browser for tree select
 
 myEditor :: String
 myEditor = myTerminal ++ " -e vim "    -- Sets vim as editor for tree select
@@ -347,22 +347,19 @@ ntgnlKeymap = M.fromList $
 ------------------------------------------------------------------------
 -- SEARCH ENGINES
 ------------------------------------------------------------------------
-ebay, urban :: S.SearchEngine
+ebay, url :: S.SearchEngine
 
 ebay     = S.searchEngine "ebay" "https://www.ebay.com/sch/i.html?_nkw="
-urban    = S.searchEngine "urban" "https://www.urbandictionary.com/define.php?term="
+url    = S.searchEngine "url" ""         
 
 searchList :: [(String, S.SearchEngine)]
 searchList = [ ("d", S.duckduckgo)
              , ("e", ebay)
              , ("g", S.google)
-             , ("h", S.hoogle)
              , ("i", S.images)
-             , ("s", S.stackage)
-             , ("t", S.thesaurus)
-             , ("v", S.vocabulary)
+             , ("s", url)
              , ("b", S.wayback)
-             , ("u", urban)
+             , ("u", url)
              , ("w", S.wikipedia)
              , ("y", S.youtube)
              , ("z", S.amazon)
@@ -402,7 +399,6 @@ myManageHook = composeAll
      , className =? "discord" --> doShift (myWorkspaces !! 3)
      , title =? "nmtui" --> doFloat
      , title =? "ncmpcpp" --> doFloat
-     , title =? "ncmpcpp" --> doShift (myWorkspaces !! 6) 
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
@@ -606,8 +602,8 @@ myKeys =
         , ("<XF86AudioMute>",   spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
         , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
         , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
-        , ("<XF86HomePage>", spawn "qutebrowser")
-        , ("<XF86Search>", safeSpawn "qutebrowser" ["https://www.duckduckgo.com/"])
+        , ("<XF86HomePage>", spawn "firefox")
+        , ("<XF86Search>", safeSpawn "firefox" ["https://www.duckduckgo.com/"])
         , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
         , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
         , ("<XF86Eject>", spawn "toggleeject")

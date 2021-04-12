@@ -357,7 +357,7 @@ searchList = [ ("d", S.duckduckgo)
              , ("e", ebay)
              , ("g", S.google)
              , ("i", S.images)
-             , ("s", S.stackage)
+             , ("s", url)
              , ("b", S.wayback)
              , ("u", url)
              , ("w", S.wikipedia)
@@ -593,6 +593,7 @@ myKeys =
         , ("M-M1-x", spawn "/home/aleks/sc/coordinator/coordClick.sh")
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
         , ("M-M1-m", spawn (myTerminal ++ " -e ncmpcpp"))
+        , ("M-M1-d", spawn (myTerminal ++ " -e nnn"))
         , ("M-M1-q", spawn (myBrowser))
 
 

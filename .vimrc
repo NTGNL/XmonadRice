@@ -41,7 +41,7 @@
 if 0 | endif
 
 if &compatible
-  set nocompatible               " Be iMproved
+  set nocompatible
 endif
 
 " Required:
@@ -189,7 +189,6 @@ NeoBundleCheck
     set linebreak                                   " don't cut words on wrap
     set listchars=tab:>\                            " > to highlight <Tab>
     set list                                        " displaying listchars
-    set mouse=                                      " disable mouse
     set noshowmode                                  " hide mode cmd line
     set noexrc                                      " don't use other .*rc(s)
     set nostartofline                               " keep cursor column pos
@@ -634,7 +633,8 @@ let g:airline_theme='badwolf'
 
 "colorscheme 
 "let g:gruvbox_contrast_dark ='Hard'
-"colorscheme gruvbox
+set background=dark
+colorscheme gruvbox
 
 set cursorline
 set number

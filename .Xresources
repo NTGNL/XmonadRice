@@ -41,16 +41,16 @@ URxvt.keysym.C-S-0x43: eval:selection_to_clipboard
 URxvt.keysym.C-S-0x56: eval:paste_clipboard
 URxvt.cursorBlink: true
 
-URxvt*font: xft:TerminessTTF Nerd Font:size=11
+URxvt*font: xft:TerminessTTF Nerd Font:size=12
 
-URxvt*transparent: true
+URxvt*transparent: false
 URxvt*tintColor: White
 URxvt*shading: 25
 URxvt*scrollBar: false
 
 urxvt*foreground: #dfdfdf
 
-*background:  #303030
+*background:  #282828
 *foreground:  #b0b0b0
 ! Black
 *color0:      #202020
