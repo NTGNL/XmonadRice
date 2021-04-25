@@ -16,28 +16,29 @@ Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=14:antialia
        , persistent = True
        , iconRoot = "~/.xmonad/xpm/"  -- default: "."
        , commands = [
-                      -- Time and date
-                      Run Date "%b %d %Y %H:%M" "date" 100
-                      -- Cpu usage in percent
+       -- Time and date
+                    Run Date "%b %d %Y %H:%M" "date" 100
+                    -- Cpu usage in percent
                     , Run Cpu ["-t", " <total>%","-H","50","--high","red"] 100
-                      -- Ram used number and percent
+                    -- Ram used number and percent
                     , Run Memory ["-t", " <used>M <usedratio>%"] 100
-                      -- Disk space free
-                    , Run DiskU [("/", "<free> free")] [] 100
--- Battery
-, Run Battery [
-"-t", "<acstatus> <left>% - <timeleft>",
-"--",
---"-c", "charge_full",
-"-O", "AC",
-"-o", "BAT",
-"-h", "green",
-"-l", "red"
-] 100
--- Volume Incicator
-, Run Com "/bin/bash" ["-c", "~/sc/get-volume.sh"]  "myvolume" 50
--- CPU Temperature
- , Run Com "/bin/bash" ["-c", "~/sc/get-temp.sh"]  "mytemp" 100
+                    -- Disk space free
+                    , Run DiskU [("/", "<free>")] [] 100
+                    -- Battery
+                    , Run Battery [
+                        "-t", "<acstatus> <left>% - <timeleft>",
+                        "--",
+                        "-O", "AC",
+                        "-o", "BAT",
+                        "-L", "10", "-H", "80",
+                        "-l", "red", "-h", "green"
+                        ] 100
+                    -- Volume Incicator
+                    , Run Com "/bin/bash" ["-c", "~/sc/get-volume.sh"]  "myvolume" 50
+                    -- CPU Temperature
+                    , Run Com "/bin/bash" ["-c", "~/sc/get-temp.sh"]  "mytemp" 100
+                    -- Disk read/write
+                    , Run DiskIO [("/", "<read> <write>"), ("sdb1", "<total>")] [] 100
 
                       -- Prints out the left side items such as workspaces, layout, etc.
                       -- The workspaces are 'clickable' in my configs.
@@ -45,5 +46,5 @@ Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=14:antialia
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template =  "<icon=haskell_20.xpm/> <fc=#666666>|</fc> %UnsafeStdinReader% }{ <fc=#F2E5BC> <fn=1>墳 </fn> %myvolume% </fc><fc=#666666> <fn=2>|</fn> </fc><fc=#EA6962> <fn=1> </fn> %mytemp% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#A9B665> <fn=1>ﱨ </fn> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#945E80> <fn=1> </fn>%memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#D8A657> <fn=1> </fn> %disku% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#a6e22e> <fn=1>  </fn> %battery% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#f8f8f2> <fn=1> </fn> %date%  </fc>"
+       , template =  "<icon=haskell_20.xpm/> <fc=#666666>|</fc> %UnsafeStdinReader% }{<fc=#F2E5BC> <fn=1>SND:</fn> %myvolume% </fc><fc=#666666> <fn=2>|</fn> </fc><fc=#EA6962> <fn=1>THR:</fn> %mytemp% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#A9B665> <fn=1>UTIL:</fn> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#945E80> <fn=1>RAM:</fn>%memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#D8A657> <fn=1>/dev/sda3</fn> %disku% %diskio% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#a6e22e> %battery% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#f8f8f2> %date%  </fc>"
        }

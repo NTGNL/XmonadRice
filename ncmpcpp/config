@@ -16,7 +16,8 @@ alternative_ui_separator_color = 11
 
 color1 = 13
 color2 = 15
-main_window_highlight_color = cyan
+current_item_prefix = "$(cyan)$r"
+current_item_suffix = "$/r$(end)"
 main_window_color = 13
 
 now_playing_prefix = "$b"
@@ -24,7 +25,8 @@ now_playing_suffix = "$/b"
 song_list_format = "    $(15)%t$(end)$R $(11)%A$(end) ($(cyan)%l$(end))    "
 song_columns_list_format = "(40)[15]{t|f} (25)[13]{a} (25)[11]{b} (5)[cyan]{l}"
 browser_playlist_prefix = "$(11) playlist $(end) "
-active_column_color = 4
+current_item_inactive_column_prefix = 4
+current_item_inactive_column_suffix = 4
 
 progressbar_color = 1
 progressbar_elapsed_color = 11

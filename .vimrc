@@ -75,6 +75,7 @@ NeoBundleCheck
     "autocomplete syntax
     "Plug 'valloric/youcompleteme'
 
+    Plug 'vifm/vifm.vim'
     Plug 'mkitt/tabline'
 
     "color for files in nerdtree
@@ -635,10 +636,12 @@ let g:airline_theme='badwolf'
 "let g:gruvbox_contrast_dark ='Hard'
 set background=dark
 colorscheme gruvbox
-
+let g:startify_custom_header = 'startify#pad(startify#fortune#cowsay())'
 set cursorline
 set number
 hi CursorLine term=bold cterm=bold guibg=Grey40
+
+hi Normal guibg=NONE ctermbg=NONE
 
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0

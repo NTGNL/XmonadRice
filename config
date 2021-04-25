@@ -1,0 +1,49 @@
+[options]
+font = TerminessTTF Nerd Font 11
+fullscreen = true
+clickable_url = true
+allow_bold = true
+dynamic_title = true
+highlight = #262626
+scrollback_lines = 10000
+
+[colors]
+# special
+foreground      = #f9f5d7
+foreground_bold = #f9f5d7
+cursor          = #d5c4a1
+background      = #262626
+
+# black
+color0  = #262626
+color8  = #928374
+
+# red
+color1  = #fb4934
+color9  = #cc241d
+
+# green
+color2  = #b8bb26
+color10 = #98971a
+
+# yellow
+color3  = #fabd2f
+color11 = #d79921
+
+# blue
+color4  = #076678
+color12 = #458588
+
+# magenta
+color5  = #b16286
+color13 = #8f3f71
+
+# cyan
+color6  = #689d6a
+color14 = #427b58
+
+# white
+color7  = #f9f5d7
+color15 = #fbf1c7
+
+background = rgba(0, 0, 0, 0)

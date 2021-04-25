@@ -86,7 +86,7 @@ myModMask :: KeyMask
 myModMask = mod4Mask       -- Sets modkey to super/windows key
 
 myTerminal :: String
-myTerminal = "urxvt"   -- Sets default terminal
+myTerminal = "termite"   -- Sets default terminal
 
 myBrowser :: String
 myBrowser = "firefox "               -- Sets qutebrowser as browser for tree select
@@ -117,6 +117,7 @@ myStartupHook = do
           spawn "compton"
           spawn "nitrogen --restore"
           spawn "clipit"
+          spawn "urxvtd"
 
 
 ------------------------------------------------------------------------
@@ -164,9 +165,8 @@ myApplications = [ ("Record Screen", "/home/aleks/sc/record_gif.sh", "Record scr
                  ]
 
 myBookmarks :: [(String, String, String)]
-myBookmarks = [ ("Youtube.com", myBrowser ++ "https://www.youtube.com", "Youtube")
-              , ("My website", myBrowser ++ "https://www.aleksander.xyz", "My website")
-                , ("walk.sh CSGO", "/home/aleks/sc/csgo/walk.sh", "walk csgo")
+myBookmarks = [ ("empty" ,"sh "++"echo" ,"tmp")
+            , ("empty" ,"sh "++"echo" ,"tmp")
               ]
 
 myConfigs :: [(String, String, String)]
@@ -199,7 +199,7 @@ treeselectAction a = TS.treeselectAction a
                       (spawn $ TE.snd3 $ myApplications !! n)
            ) [] | n <- [0..(length myApplications - 1)]
      ]
-   , Node (TS.TSNode "bookmarks" "a list of web bookmarks" (return ()))
+   , Node (TS.TSNode "Soundboard" "list of soundboard effects" (return ()))
      [Node (TS.TSNode(TE.fst3 $ myBookmarks !! n)
                      (TE.thd3 $ myBookmarks !! n)
                      (spawn $ TE.snd3 $ myBookmarks !! n)
@@ -395,11 +395,8 @@ myManageHook = composeAll
      , className =? "Nitrogen"    --> doFloat
      , className =? "Pavucontrol"   --> doFloat
      , className =? "mpv"   --> doFloat
-     , className =? "qutebrowser" --> doShift (myWorkspaces !! 1)
-     , className =? "discord" --> doShift (myWorkspaces !! 3)
      , title =? "nmtui" --> doFloat
      , title =? "ncmpcpp" --> doFloat
-     , title =? "ncmpcpp" --> doShift (myWorkspaces !! 6) 
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
@@ -472,13 +469,13 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
                -- I've commented out the layouts I don't use.
-               myDefaultLayout =     tall
+               myDefaultLayout =     spirals
                                  ||| magnify
                                  ||| noBorders monocle
                                  ||| floats
                                  ||| grid
                                  ||| noBorders tabs
-                                 ||| spirals
+                                 ||| tall
                                  -- ||| threeCol
                                  -- ||| threeRow
 
@@ -589,11 +586,11 @@ myKeys =
         , ("M-M1-f", spawn "firefox")
         , ("M-M1-v", spawn (myTerminal ++ " -e vim"))
         , ("M-M1-k", spawn "/home/aleks/Programs/cool-retro-term/cool-retro-term")
-        , ("M-M1-n", spawn "nautilus")
+        , ("M-M1-d", spawn "nautilus")
         , ("M-M1-x", spawn "/home/aleks/sc/coordinator/coordClick.sh")
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
         , ("M-M1-m", spawn (myTerminal ++ " -e ncmpcpp"))
-        , ("M-M1-d", spawn (myTerminal ++ " -e nnn"))
+        , ("M-M1-n", spawn (myTerminal ++ " -e nnn"))
         , ("M-M1-q", spawn (myBrowser))
 
 
