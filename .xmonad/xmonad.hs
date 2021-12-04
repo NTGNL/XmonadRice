@@ -7,6 +7,9 @@ import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
 
+    --Screens
+import XMonad.Layout.IndependentScreens
+
     -- Actions
 import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies)
 import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
@@ -86,7 +89,7 @@ myModMask :: KeyMask
 myModMask = mod4Mask       -- Sets modkey to super/windows key
 
 myTerminal :: String
-myTerminal = "termite"   -- Sets default terminal
+myTerminal = "alacritty"   -- Sets default terminal
 
 myBrowser :: String
 myBrowser = "firefox "               -- Sets qutebrowser as browser for tree select
@@ -114,10 +117,8 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-          spawn "compton"
           spawn "nitrogen --restore"
           spawn "clipit"
-          spawn "urxvtd"
 
 
 ------------------------------------------------------------------------
@@ -161,7 +162,7 @@ myApplications = [ ("Record Screen", "/home/aleks/sc/record_gif.sh", "Record scr
                  , ("Get Mouse Coords", "/home/aleks/sc/coordinator/coord.sh", "get coordinate to click")
                  , ("rulonOne.sh One ", "/home/aleks/sc/random/rulonOne.sh", "one word spammer")
                  , ("rulon2fast.sh Fast", "/home/aleks/sc/random/rulon2fast.sh", "fast word spammer")
-                 , ("rulon2.sh 13 Words", "/home/aleks/sc/random/rulon2.sh", "13 word spammer")
+                 , ("syfOne.sh one syf", "/home/aleks/sc/random/syfOne.sh", "1 random")
                  ]
 
 myBookmarks :: [(String, String, String)]
@@ -391,12 +392,11 @@ myWorkspaces = clickable . (map xmobarEscape)
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
      [ className =? "Gimp"    --> doFloat
-     , className =? "Nautilus"    --> doFloat
+     , className =? "Thunar"    --> doFloat
      , className =? "Nitrogen"    --> doFloat
      , className =? "Pavucontrol"   --> doFloat
      , className =? "mpv"   --> doFloat
      , title =? "nmtui" --> doFloat
-     , title =? "ncmpcpp" --> doFloat
      , title =? "Oracle VM VirtualBox Manager"     --> doFloat
      ] <+> namedScratchpadManageHook myScratchPads
 
@@ -586,7 +586,8 @@ myKeys =
         , ("M-M1-f", spawn "firefox")
         , ("M-M1-v", spawn (myTerminal ++ " -e vim"))
         , ("M-M1-k", spawn "/home/aleks/Programs/cool-retro-term/cool-retro-term")
-        , ("M-M1-d", spawn "nautilus")
+        , ("M-M1-d", spawn "thunar")
+        , ("M-M1-s", spawn "stacer")
         , ("M-M1-x", spawn "/home/aleks/sc/coordinator/coordClick.sh")
         , ("M-M1-t", spawn (myTerminal ++ " -e nmtui"))
         , ("M-M1-m", spawn (myTerminal ++ " -e ncmpcpp"))
@@ -595,17 +596,12 @@ myKeys =
 
 
     -- Multimedia Keys
-        , ("<XF86AudioPlay>", spawn "cmus toggle")
-        , ("<XF86AudioPrev>", spawn "cmus prev")
-        , ("<XF86AudioNext>", spawn "cmus next")
+        , ("<XF86AudioPlay>", spawn "mpc toggle")
+        , ("<XF86AudioPrev>", spawn "mpc prev")
+        , ("<XF86AudioNext>", spawn "mpc next")
         , ("<XF86AudioMute>",   spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
         , ("<XF86AudioLowerVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
         , ("<XF86AudioRaiseVolume>", spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
-        , ("<XF86HomePage>", spawn "firefox")
-        , ("<XF86Search>", safeSpawn "firefox" ["https://www.duckduckgo.com/"])
-        , ("<XF86Mail>", runOrRaise "thunderbird" (resource =? "thunderbird"))
-        , ("<XF86Calculator>", runOrRaise "gcalctool" (resource =? "gcalctool"))
-        , ("<XF86Eject>", spawn "toggleeject")
         , ("<Print>", spawn "gnome-screenshot -a")
         ]
         -- Appending search engine prompts to keybindings list.
@@ -640,7 +636,7 @@ main = do
                         { ppOutput = \x -> hPutStrLn xmproc0 x
                         , ppCurrent = xmobarColor "#A9B665" "" . wrap "[" "]" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#A9B665" ""                -- Visible but not current workspace
-                        , ppHidden = xmobarColor "#7DAEA3" "" . wrap "*" ""   -- Hidden workspaces in xmobar
+                        , ppHidden = xmobarColor "#7DAEA3" "" . wrap "*"  ""   -- Hidden workspaces in xmobar
                         , ppHiddenNoWindows = xmobarColor "#D4BE98" ""        -- Hidden workspaces (no windows)
                         , ppTitle = xmobarColor "#b3afc2" "" . shorten 60     -- Title of active window in xmobar
                         , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"                     -- Separators in xmobar

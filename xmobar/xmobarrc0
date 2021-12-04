@@ -2,37 +2,49 @@
 -- install xmobar with these flags: --flags="with_alsa" --flags="with_mpd" --flags="with_xft"  OR --flags="all_extensions"
 -- you can find weather location codes here: http://weather.noaa.gov/index.html
 
-Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=14:antialias=true:hinting=true"
-       , additionalFonts = [ "xft:TerminessTTF Nerd Font:pixelsize=14:antialias=true:hinting=true"
+Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=15:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:TerminessTTF Nerd Font:pixelsize=15:antialias=true:hinting=true"
                            , "xft:TerminessTTF Nerd Font:pixelsize=18:antialias=true:hinting=true"
-                           , "xft:FontAwesome:pixelsize=19"
+                           , "xft:FontAwesome:pixelsize=20"
                            ]
        , bgColor = "#1f1f1f"
        , fgColor = "#f8f8f8"
-       , position = Static { xpos = 0 , ypos = 0, width = 1920, height = 25 }
+       , position = Static { xpos = 0 , ypos = 0, width = 1920, height = 29 }
        , lowerOnStart = True
        , hideOnStart = False
        , allDesktops = True
        , persistent = True
-       , iconRoot = "~/.xmonad/xpm/"  -- default: "."
        , commands = [
        -- Time and date
                     Run Date "%b %d %Y %H:%M" "date" 100
                     -- Cpu usage in percent
                     , Run Cpu ["-t", " <total>%","-H","50","--high","red"] 100
                     -- Ram used number and percent
-                    , Run Memory ["-t", " <used>M <usedratio>%"] 100
+                    , Run Memory         [ "--template" ," <usedratio>%"
+                             , "--Low"      , "20"        -- units: %
+                             , "--High"     , "90"        -- units: %
+                             , "--low"      , "darkgreen"
+                             , "--normal"   , "darkorange"
+                             , "--high"     , "darkred"
+                             ] 100
                     -- Disk space free
                     , Run DiskU [("/", "<free>")] [] 100
                     -- Battery
-                    , Run Battery [
-                        "-t", "<acstatus> <left>% - <timeleft>",
-                        "--",
-                        "-O", "AC",
-                        "-o", "BAT",
-                        "-L", "10", "-H", "80",
-                        "-l", "red", "-h", "green"
-                        ] 100
+                   , Run Battery        [ "--template" , "Bat: <acstatus>"
+                             , "--Low"      , "10"        -- units: %
+                             , "--High"     , "80"        -- units: %
+                             , "--low"      , "darkred"
+                             , "--normal"   , "darkorange"
+                             , "--high"     , "darkgreen"
+
+                             , "--" -- battery specific options
+                                       -- discharging status
+                                       , "-o"	, "<left>% (<timeleft>)"
+                                       -- AC "on" status
+                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
+                                       -- charged status
+                                       , "-i"	, "<fc=#006000>Charged</fc>"
+                             ] 100 
                     -- Volume Incicator
                     , Run Com "/bin/bash" ["-c", "~/sc/get-volume.sh"]  "myvolume" 50
                     -- CPU Temperature
@@ -40,11 +52,19 @@ Config { font    = "xft:TerminessTTF Nerd Font:weight=bold:pixelsize=14:antialia
                     -- Disk read/write
                     , Run DiskIO [("/", "<read> <write>"), ("sdb1", "<total>")] [] 100
 
+                -- network activity monitor (dynamic interface resolution)
+                     , Run DynNetwork     [ "--template" , "<tx>kB/s|<rx>kB/s"
+                             , "--Low"      , "1000"       -- units: B/s
+                             , "--High"     , "5000"       -- units: B/s
+                             , "--low"      , "darkgreen"
+                             , "--normal"   , "darkorange"
+                             , "--high"     , "darkred"
+                             ] 100
                       -- Prints out the left side items such as workspaces, layout, etc.
                       -- The workspaces are 'clickable' in my configs.
                     , Run UnsafeStdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template =  "<icon=haskell_20.xpm/> <fc=#666666>|</fc> %UnsafeStdinReader% }{<fc=#F2E5BC> <fn=1>SND:</fn> %myvolume% </fc><fc=#666666> <fn=2>|</fn> </fc><fc=#EA6962> <fn=1>THR:</fn> %mytemp% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#A9B665> <fn=1>UTIL:</fn> %cpu% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#945E80> <fn=1>RAM:</fn>%memory% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#D8A657> <fn=1>/dev/sda3</fn> %disku% %diskio% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#a6e22e> %battery% </fc><fc=#666666> <fn=2>|</fn></fc> <fc=#f8f8f2> %date%  </fc>"
+       , template =  "<fc=#666666>|</fc> %UnsafeStdinReader% }{ <fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2>ﰝ </fn></fc><fc=#87b7d9> %myvolume% </fc><fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2> </fn></fc><fc=#EA6962> %mytemp% </fc><fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2> </fn></fc><fc=#A9B665>%cpu% </fc><fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2>歷 </fn></fc><fc=#A9B665> %dynnetwork% </fc><fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2> </fn></fc><fc=#945E80>%memory% </fc><fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2> </fn></fc><fc=#D8A657><fn=1>/dev/sda3</fn> %disku% %diskio% </fc><fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2> </fn></fc><fc=#a6e22e> %battery% </fc><fc=#666666><fn=2>|</fn></fc><fc=#f1f8ff><fn=2> </fn></fc><fc=#f8f8f2> %date%  </fc>"
        }
