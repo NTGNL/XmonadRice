@@ -377,13 +377,13 @@ xmobarEscape = concatMap doubleLts
         doubleLts x   = [x]
 
 myWorkspaces :: [String]
-myWorkspaces = clickable . (map xmobarEscape)
+myWorkspaces = (map xmobarEscape)
                -- $ ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-               $ ["1", "2", "3", "4", "dev", "sys", "mus", "vim", "gfx"]
-  where
-        clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
-                      (i,ws) <- zip [1..9] l,
-                      let n = i ]
+                $ [" 1 ", " 2 ", " 3 ", " SRV ", " DEV ", " SYS ", " NET ", " VIM ", " GFX "]
+   --where
+         --clickable l = [ "<action=xdotool key super+" ++ show (n) ++ "> " ++ ws ++ " </action>" |
+                       --(i,ws) <- zip [1..9] l,
+                --      let n = i ]
 
 ------------------------------------------------------------------------
 -- MANAGEHOOK
@@ -392,8 +392,8 @@ myWorkspaces = clickable . (map xmobarEscape)
 myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
      [ className =? "Gimp"    --> doFloat
-     , className =? "Thunar"    --> doFloat
-     , className =? "Nitrogen"    --> doFloat
+   --  , className =? "Thunar"    --> doFloat
+   --  , className =? "Nitrogen"    --> doFloat
      , className =? "Pavucontrol"   --> doFloat
      , className =? "mpv"   --> doFloat
      , title =? "nmtui" --> doFloat
@@ -410,25 +410,25 @@ myLogHook = fadeInactiveLogHook fadeAmount
 ------------------------------------------------------------------------
 -- LAYOUTS
 ------------------------------------------------------------------------
-tall     = renamed [Replace "tall"]
+tall     = renamed [Replace "TALL"]
            $ limitWindows 12
            -- $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
-magnify  = renamed [Replace "magnify"]
+magnify  = renamed [Replace "MAG"]
            $ magnifier
            $ limitWindows 12
            -- $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
-monocle  = renamed [Replace "monocle"]
+monocle  = renamed [Replace "MOK"]
            $ limitWindows 20 Full
-floats   = renamed [Replace "floats"]
+floats   = renamed [Replace "FLOT"]
            $ limitWindows 20 simplestFloat
-grid     = renamed [Replace "grid"]
+grid     = renamed [Replace "GRID"]
            $ limitWindows 12
            -- $ mySpacing 8
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
-spirals  = renamed [Replace "spirals"]
+spirals  = renamed [Replace "SPIR"]
            -- $ mySpacing' 8
            $ spiral (6/7)
 threeCol = renamed [Replace "threeCol"]
@@ -442,7 +442,7 @@ threeRow = renamed [Replace "threeRow"]
            -- So we are applying Mirror to the ThreeCol layout.
            $ Mirror
            $ ThreeCol 1 (3/100) (1/2)
-tabs     = renamed [Replace "tabs"]
+tabs     = renamed [Replace "TAB"]
            -- I cannot add spacing to this layout because it will
            -- add spacing between window and tabs which looks bad.
            $ tabbed shrinkText myTabConfig
@@ -638,7 +638,7 @@ main = do
                         , ppVisible = xmobarColor "#A9B665" ""                -- Visible but not current workspace
                         , ppHidden = xmobarColor "#7DAEA3" "" . wrap "*"  ""   -- Hidden workspaces in xmobar
                         , ppHiddenNoWindows = xmobarColor "#D4BE98" ""        -- Hidden workspaces (no windows)
-                        , ppTitle = xmobarColor "#b3afc2" "" . shorten 60     -- Title of active window in xmobar
+                        , ppTitle = xmobarColor "#b3afc2" "" . shorten 20     -- Title of active window in xmobar
                         , ppSep =  "<fc=#666666> <fn=2>|</fn> </fc>"                     -- Separators in xmobar
                         , ppUrgent = xmobarColor "#C45500" "" . wrap "!" "!"  -- Urgent workspace
                         , ppExtras  = [windowCount]                           -- # of windows current workspace
